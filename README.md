@@ -5,4 +5,4 @@ This started from John Burn-Murdoch's chart that showed that country population 
 
 For an explanation of the analysis, see https://twitter.com/teemu_roos/status/1254727507833741312?s=20
 
-!(https://github.com/teemuroos/covid-vis/blob/master/figures/Rsquared.png =640x)
+![](https://github.com/teemuroos/covid-vis/blob/master/figures/Rsquared.png =640x)
