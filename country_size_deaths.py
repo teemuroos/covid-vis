@@ -178,7 +178,7 @@ else:
 # REGRESSION MODELING
 
 regX = pd.DataFrame()
-regX['pop'] = np.log(x)
+regX['pop'] = np.log10(x)
 regX['region'] = reg
 
 from sklearn.linear_model import LinearRegression
@@ -204,7 +204,7 @@ for region in regions:
     lineX['region'] = [region]*2
     pfeatures = t.transform(lineX)
     yline = reg.predict(pfeatures)
-    plt.plot(np.exp(xline), yline, linewidth=3.5, color=color[region], alpha=0.182)
+    plt.plot(10**(xline), yline, linewidth=3.5, color=color[region], alpha=0.182)
 
 ax.annotate("Sources: Covid data from ourworldindata.org, population data from worldometers.info",
             xy=(10, 10), xycoords='figure pixels', color='gray', fontsize=10)
