@@ -155,7 +155,7 @@ texts = [plt.text(x[i], y[i], lab[i], ha='center', va='bottom', color=color[reg[
 
 # R-squared without regions
 
-R2 = np.corrcoef(np.log(x), y)[0, 1]**2
+R2 = np.corrcoef(np.log10(x), y)[0, 1]**2
 print(R2)
 
 ax.set_xlabel("Country population")
