@@ -70,7 +70,6 @@ for country in countries:
     if region_system == 'ITUcomb':
         if region[country] in ("North America", "South/Latin America"): region[country] = 'Americas'
     
-    if select_countries and isocode[country] not in select_countries: continue
     pop = max(popd[popd["location"] == country]["population"], default=-100)
  #   print("%s (%s) region %s %s" % (country, isocode[country], region[country], str(day0[country])))
 
@@ -152,7 +151,7 @@ ax.yaxis.set_major_locator(plt.FixedLocator([1,2]))
   
 # create legend with a color sample for each region
 
-texts = [plt.text(x[i], y[i], lab[i], ha='center', va='bottom', c=color[reg[i]]) for i in range(len(lab))]
+texts = [plt.text(x[i], y[i], lab[i], ha='center', va='bottom', color=color[reg[i]]) for i in range(len(lab))]
 
 # R-squared without regions
 
@@ -163,7 +162,7 @@ ax.set_xlabel("Country population")
 ax.set_ylabel("Daily deaths (7-day avg) {} days after 50th death".format(lag))
 
 if region_system in ['ITU', 'ITUcomb']:
-    plt.legend(handles=[mpatches.Patch(color=colors[i], label=regions[i]) for i in range(len(regions))], facecolor='white', loc='lower right') #
+    leg = plt.legend(handles=[mpatches.Patch(color=colors[i], label=regions[i]) for i in range(len(regions))], facecolor='white', loc='lower right') #
 else:
     box = ax.get_position() # get position of figure
     ax.set_position([box.x0, box.y0, box.width * 0.70, box.height]) # resize position
