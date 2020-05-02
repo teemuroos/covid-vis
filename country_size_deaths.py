@@ -68,7 +68,7 @@ ddayX = {}
 use_density_instead_of_pop = False    # outcome is uninteresting but had to check
 
 use_density_as_covariate = False
-use_temp_as_covariate = True
+use_temp_as_covariate = False
 
 # combine population, population density, Covid and region data from three different dataframes
 
@@ -121,7 +121,7 @@ tmps = [tmp[country] for country in ddayX.keys()]
 
 if use_density_instead_of_pop:
     pops = x
-    x = [10.0**t for t in tmps]
+    x = dens
 
 # y-value is number of deaths
 
@@ -129,7 +129,6 @@ y = [np.log10(ddayX[country]) for country in ddayX.keys()]
 
 # you can also try deaths per capita
 #y = [np.log10(ddayX[country]/(max(pop[pop["location"] == country]["population"])/1000000)) for country in ddayX.keys()]
-
 
 # labels
 
@@ -261,10 +260,10 @@ for region in regions:
     yline = lm.predict(pfeatures)
     plt.plot(10**(xline), yline, linewidth=3.5, color=color[region], alpha=0.182)
 
-ax.annotate("Sources: Covid data from ourworldindata.org, population data from worldometers.info",
+ax.annotate("Sources: Covid data from ourworldindata.org, population data from worldometers.info, temperature data from cru.uea.ac.uk",
             xy=(10, 10), xycoords='figure pixels', color='gray', fontsize=10)
-#ax.annotate("Statistical analysis: Teemu Roos (@teemu_roos), 29.4.2020",
-#          xy=(10, 50), xycoords='figure pixels', color='gray', fontsize=10)
+ax.annotate("Statistical analysis: Teemu Roos (@teemu_roos), 2.5.2020",
+         xy=(10, 50), xycoords='figure pixels', color='gray', fontsize=10)
 
 
 #plt.ylim(np.log10(.3), np.log10(700))   # comment out if using per capita deaths
