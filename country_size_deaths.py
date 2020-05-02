@@ -53,7 +53,7 @@ for file in crufiles:
     if country == "Moldavia": country = "Moldova"
  
     alltmp = pd.read_csv(file, skiprows=3, sep = "\s+|\t+|\s+\t+|\t+\s+", engine='python')
-    lasttmp = alltmp[alltmp['YEAR'] == max(alltmp['YEAR'])]['FEB'].item()
+    lasttmp = np.mean(alltmp[alltmp['YEAR'] >= max(alltmp['YEAR'])-10]['FEB'])
     tmp[country] = lasttmp    
 
 tmp['Serbia'] = 3.0 # http://www.serbia.climatemps.com/february.php
@@ -68,7 +68,7 @@ ddayX = {}
 use_density_instead_of_pop = False    # outcome is uninteresting but had to check
 
 use_density_as_covariate = False
-use_temp_as_covariate = False
+use_temp_as_covariate = True
 
 # combine population, population density, Covid and region data from three different dataframes
 
