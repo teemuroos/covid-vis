@@ -16,11 +16,12 @@ import numpy as np
 from os import listdir
 from os.path import isfile, join
 from itertools import islice
+from datetime import datetime
 
 # uncomment the next two lines to download updated Covid data from Ourworldindata.org
 
-#owid_data = pd.read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
-#owid_data.to_csv('data/owid-covid-data.csv')
+owid_data = pd.read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
+owid_data.to_csv('data/owid-covid-data.csv')
 
 data = pd.read_csv('data/owid-covid-data.csv')
 data['Date'] = pd.to_datetime(data['date'], format="%Y-%m-%d")
@@ -48,12 +49,15 @@ for file in crufiles:
     with open(file) as fin:
         for line in islice(fin, 1, 2):
             country = line.split()[2].replace('_', ' ')
+
+    # fix the non-standard country names in CRU data
     if country == "USA": country = "United States"
     if country == "Puerto Rica": country = "Puerto Rico"
     if country == "Moldavia": country = "Moldova"
+    if country == "Bosnia-Herzegovinia": country = "Bosnia and Herzegovina"
  
     alltmp = pd.read_csv(file, skiprows=3, sep = "\s+|\t+|\s+\t+|\t+\s+", engine='python')
-    lasttmp = np.mean(alltmp[alltmp['YEAR'] >= max(alltmp['YEAR'])-10]['FEB'])
+    lasttmp = np.mean(alltmp[alltmp['YEAR'] >= max(alltmp['YEAR'])-10]['MAR'])
     tmp[country] = lasttmp    
 
 tmp['Serbia'] = 3.0 # http://www.serbia.climatemps.com/february.php
@@ -61,7 +65,8 @@ tmp['Serbia'] = 3.0 # http://www.serbia.climatemps.com/february.php
 isocode = {}
 day0 = {}
 region = {}
-lag = 10
+startdeaths = 50
+lag = 30
 selectorlag = lag
 ddayX = {}
 
@@ -75,7 +80,7 @@ use_temp_as_covariate = True
 for country in countries:
     if country in ('World', 'International'): continue
     
-    day0[country] = min(data[(data["location"] == country) & (data["total_deaths"] >= 50)]["Date"], default=None) 
+    day0[country] = min(data[(data["location"] == country) & (data["total_deaths"] >= startdeaths)]["Date"], default=None) 
     isocode[country] = data[data["location"] == country].iso_code.iloc[0]
 
     if region_system in ['ITU', 'ITUcomb', 'WHO']:
@@ -193,7 +198,7 @@ ax.xaxis.set_major_formatter(formatter)
 
 formatter = FuncFormatter(lambda y, _: '{:,.16g}'.format(10.**y)) # https://stackoverflow.com/a/49306588/3904031
 ax.yaxis.set_major_formatter(formatter)
-ax.yaxis.set_major_locator(plt.FixedLocator([1,2]))
+ax.yaxis.set_major_locator(plt.FixedLocator([1,2,3]))
   
 # country labels
 
@@ -205,7 +210,7 @@ texts = [plt.annotate(lab[i], xy = (x[i],y[i]), xycoords='data', xytext=(0,0), t
 R2 = np.corrcoef(np.log10(x), y)[0, 1]**2
 print("R-squared without regions: {:.3f}  {:d} countries included".format(R2, len(y)))
 
-ax.set_ylabel("Daily deaths (7-day avg) {} days after 50th death".format(lag))
+ax.set_ylabel("Daily deaths (7-day avg) {} days after {}th death".format(lag, startdeaths))
 
 if region_system in ['ITU', 'ITUcomb']:
     leg = plt.legend(handles=[mpatches.Patch(color=colors[i], label=regions[i]) for i in range(len(regions))], facecolor='white', loc='lower right') #
@@ -253,16 +258,16 @@ for region in regions:
     lineX['pop'] = xline
     lineX['region'] = [region]*2
     if 'density' in regX:
-        lineX['density'] = [np.mean(regX['density'])]*2
+        lineX['density'] = [np.mean(regX[regX['region']==region]['density'])]*2
     if 'temp' in regX:
-        lineX['temp'] = [np.mean(regX['temp'])]*2
+        lineX['temp'] = [np.mean(regX[regX['region']==region]['temp'])]*2
     pfeatures = t.transform(lineX)
     yline = lm.predict(pfeatures)
     plt.plot(10**(xline), yline, linewidth=3.5, color=color[region], alpha=0.182)
 
 ax.annotate("Sources: Covid data from ourworldindata.org, population data from worldometers.info, temperature data from cru.uea.ac.uk",
             xy=(10, 10), xycoords='figure pixels', color='gray', fontsize=10)
-ax.annotate("Statistical analysis: Teemu Roos (@teemu_roos), 2.5.2020",
+ax.annotate("Statistical analysis: Teemu Roos (@teemu_roos), {:%Y-%m-%d}".format(datetime.now()),
          xy=(10, 50), xycoords='figure pixels', color='gray', fontsize=10)
 
 
