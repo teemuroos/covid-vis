@@ -66,7 +66,7 @@ isocode = {}
 day0 = {}
 region = {}
 startdeaths = 50
-lag = 30
+lag = 20
 selectorlag = lag
 ddayX = {}
 
@@ -179,7 +179,7 @@ else:
     width = 12
 f, ax = plt.subplots(figsize=(width, 7))
 sns.set_style("dark")
-sns.set(font_scale=1.15)
+sns.set(font_scale=0.95)
 p = sns.scatterplot(x = x, y = y, ax=ax) #, size=pops, sizes=(10,200))
 
 ax.set(xscale='log', yscale='linear')
