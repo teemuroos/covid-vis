@@ -66,7 +66,7 @@ isocode = {}
 day0 = {}
 region = {}
 startdeaths = 50
-lag = 20
+lag = 50
 selectorlag = lag
 ddayX = {}
 
