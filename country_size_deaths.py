@@ -20,8 +20,8 @@ from datetime import datetime
 
 # uncomment the next two lines to download updated Covid data from Ourworldindata.org
 
-owid_data = pd.read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
-owid_data.to_csv('data/owid-covid-data.csv')
+#owid_data = pd.read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
+#owid_data.to_csv('data/owid-covid-data.csv')
 
 data = pd.read_csv('data/owid-covid-data.csv')
 data['Date'] = pd.to_datetime(data['date'], format="%Y-%m-%d")
@@ -72,7 +72,7 @@ ddayX = {}
 
 use_density_instead_of_pop = False    # outcome is uninteresting but had to check
 
-use_density_as_covariate = False
+use_density_as_covariate = True
 use_temp_as_covariate = True
 
 # combine population, population density, Covid and region data from three different dataframes
