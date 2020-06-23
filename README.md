@@ -7,12 +7,12 @@ For an explanation of the analysis, see https://twitter.com/teemu_roos/status/12
 
 Model | R-squared
 ------|----------
-population | 0.377
-population & region | 0.647
-population & region & Feb temp. | 0.648
-population & region & pop-density | 0.657
-population & region & pop-density & Feb temp. | 0.660
+population | 0.359
+population & region | 0.638
+population & region & Feb temp. | 0.640
+population & region & pop-density | 0.650
+population & region & pop-density & Feb temp. | 0.656
 
-### Example chart: No temperatures or population density, R-squared 0.647
+### Example chart: No temperatures or population density, R-squared 0.638
 
 ![](figures/Rsquared.png)

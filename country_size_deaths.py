@@ -66,14 +66,14 @@ isocode = {}
 day0 = {}
 region = {}
 startdeaths = 50
-lag = 50
+lag = 30
 selectorlag = lag
 ddayX = {}
 
 use_density_instead_of_pop = False    # outcome is uninteresting but had to check
 
-use_density_as_covariate = True
-use_temp_as_covariate = True
+use_density_as_covariate = False
+use_temp_as_covariate = False
 
 # combine population, population density, Covid and region data from three different dataframes
 
