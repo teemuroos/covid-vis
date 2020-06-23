@@ -13,6 +13,6 @@ population & region & Feb temp. | 0.648
 population & region & pop-density | 0.657
 population & region & pop-density & Feb temp. | 0.660
 
-# Example chart: No temperatures or population density, R-squared 0.647
+### Example chart: No temperatures or population density, R-squared 0.647
 
 ![](figures/Rsquared.png)
